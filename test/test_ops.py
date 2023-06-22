@@ -18,7 +18,8 @@ def helper_test_op(shps, torch_fxn, tinygrad_fxn=None, atol=1e-6, rtol=1e-3, gra
   else:
     ts = [torch.tensor((np.random.random(size=x)+a)*b, requires_grad=True, dtype=torch.float32) for x in shps]
 
-  tst = [Tensor(x.detach().numpy(), requires_grad=not FORWARD_ONLY) for x in ts]
+  tst_ = [x.detach().numpy() for x in ts]
+  tst = [Tensor(x, requires_grad=not FORWARD_ONLY) for x in tst_]
 
   st = time.monotonic()
   out = torch_fxn(*ts)
